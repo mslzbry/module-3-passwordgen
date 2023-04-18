@@ -6,18 +6,60 @@ function checkUserInput(input) {
       console.log("y");
       return true;
     }
-    else if (input.toLowerCase() !== "n") {
+    else if (input.toLowerCase() === "n") {
+      console.log("n");
+      return false;
+    }
+    else {
       // when user inputs something that is not y, Y, n, or N
       console.log("invalid");
       window.alert("Invalid input; please enter y or n.");
       return;
     }
-    else {
-      console.log("n");
-      return false;
-    }
   }
 }
+
+function createPassword(useLowerCase, useUpperCase, useNumbers, useSpecialChars, passwordLength) {
+  console.log("create password")
+    var lowerCase = "abcdefghijklmnopqrstuvwxyz";
+    var upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    var numbers = "0123456789";
+    var specialChars = "!@#$%^&*()";
+    var password = "";
+    var concat = "";
+    if (useLowerCase) {
+      console.log("lowercase")
+      concat = concat.concat(lowerCase) //concat.concat... concat intensifies 
+    } 
+    if (useUpperCase) {
+      console.log("upcase")
+      concat = concat.concat(upperCase) 
+    } 
+    if (useNumbers) {
+      console.log("#")
+      concat = concat.concat(numbers) 
+    } 
+    if (useSpecialChars) {
+      console.log("sc")
+      concat = concat.concat(specialChars) 
+    }  
+
+    if (!useLowerCase && !useUpperCase && !useNumbers && !useSpecialChars) {
+      window.alert("Invalid input; please select at least one password requirement.");
+      return;
+
+    }
+   
+
+    console.log(concat)
+
+    for (var i = 0; i < passwordLength; i++) {
+      var randomIndex = Math.floor(Math.random() * concat.length);
+      password += concat.substring(randomIndex, randomIndex +1);
+      }
+    return password     
+    }
+
 
 function generatePassword() {
   var passwordLength = window.prompt("Please enter password length (minimum 8 characters and maximum 128 characters.)"); 
@@ -47,12 +89,18 @@ function generatePassword() {
       useSpecialChars = checkUserInput(input);
     }
 
+    // at this point, user has answered all password critera questions, now generate the password
+    var generatedPassword = createPassword(useLowerCase, useUpperCase, useNumbers, useSpecialChars, passwordLength)
+    return generatedPassword 
   } 
   else {
     window.alert("Invalid input; please enter a number between 8 and 128 for password length.")
   }
   console.log(passwordLength);
 }
+
+
+
 
 // Get references to the #generate element
 var generateBtn = document.querySelector("#generate");
